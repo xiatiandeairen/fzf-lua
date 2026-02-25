@@ -84,14 +84,27 @@ preflight() {
 }
 
 # ── fzf theme ──────────────────────────────────────────────────────────────
-FZF_THEME="--color=fg:#c0caf5,bg:#1a1b26,hl:#bb9af7 \
+FZF_THEME_DARK="--color=fg:#c0caf5,bg:#1a1b26,hl:#bb9af7 \
 --color=fg+:#c0caf5,bg+:#292e42,hl+:#7dcfff \
 --color=info:#7aa2f7,prompt:#7dcfff,pointer:#ff007c \
 --color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a \
 --color=border:#565f89,separator:#565f89,scrollbar:#565f89"
 
-FZF_COMMON="--height=90% --layout=reverse --border=rounded \
---margin=1,2 --padding=1 --scrollbar=▌ \
+FZF_THEME_LIGHT="--color=fg:#3760bf,bg:#e1e2e7,hl:#b15c00 \
+--color=fg+:#3760bf,bg+:#c4c8da,hl+:#118c74 \
+--color=info:#07879d,prompt:#007197,pointer:#f52a65 \
+--color=marker:#587539,spinner:#587539,header:#587539 \
+--color=border:#6172b0,separator:#6172b0,scrollbar:#6172b0"
+
+# Auto-detect: if COLORFGBG or terminal is light, use light theme
+if [[ "${FZF_THEME:-}" == "light" ]] || [[ "${COLORFGBG:-}" == *";15" ]]; then
+  FZF_THEME="$FZF_THEME_LIGHT"
+else
+  FZF_THEME="$FZF_THEME_DARK"
+fi
+
+FZF_COMMON="--layout=reverse --border=rounded \
+--padding=1 --scrollbar=▌ \
 --cycle $FZF_THEME"
 
 # ── Mock data generators ──────────────────────────────────────────────────
